@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const cloudinary = require("cloudinary").v2;
-
+const cors = require("cors");
 require("dotenv").config();
 
 app.use(
