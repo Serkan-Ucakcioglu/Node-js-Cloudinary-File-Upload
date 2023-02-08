@@ -10,14 +10,7 @@ const uploader = async (req, res) => {
       }
     );
 
-    // Generate url
-    const url = await cloudinary.url("node_file", {
-      width: 400,
-      height: 400,
-      Crop: "fill",
-    });
-
-    res.status(200).json({ url });
+    res.status(200).json({ url: response.url });
   } catch (error) {
     res.status(500).json(error);
   }
