@@ -26,8 +26,9 @@ cloudinary.config({
 });
 
 app.use(express.json());
-app.get("/", (req, res) => {
-  res.send("hello from simple server :)");
+
+app.post("/upload", function (req, res) {
+  console.log(req.files.img);
 });
 
 const port = process.env.PORT || 4000;
