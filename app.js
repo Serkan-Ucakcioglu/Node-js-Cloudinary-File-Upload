@@ -1,8 +1,11 @@
 const express = require("express");
 const app = express();
+
 const cloudinary = require("cloudinary").v2;
 const cors = require("cors");
+
 const fileUpload = require("express-fileupload");
+const uploadRoute = require("./router/uploadRoute");
 
 require("dotenv").config();
 
@@ -12,6 +15,7 @@ app.use(
     optionsSuccessStatus: 200,
   })
 );
+
 app.use(
   fileUpload({
     limits: { fileSize: 50 * 1024 * 1024 },
@@ -27,29 +31,7 @@ cloudinary.config({
 });
 
 app.use(express.json());
-
-app.post("/upload", async (req, res) => {
-  try {
-    const response = await cloudinary.uploader.upload(
-      req.files.img.tempFilePath,
-      {
-        public_id: "node_file",
-        folder: "node_file",
-      }
-    );
-
-    // Generate url
-    const url = await cloudinary.url("node_file", {
-      width: 400,
-      height: 400,
-      Crop: "fill",
-    });
-
-    res.status(200).json({ url });
-  } catch (error) {
-    res.status(500).json(error);
-  }
-});
+app.use("/", uploadRoute);
 
 const port = process.env.PORT || 4000;
 
