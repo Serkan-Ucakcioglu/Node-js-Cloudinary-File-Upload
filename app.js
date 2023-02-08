@@ -14,8 +14,9 @@ app.use(
 );
 app.use(
   fileUpload({
-    useTempFiles: true,
     limits: { fileSize: 50 * 1024 * 1024 },
+    useTempFiles: true,
+    tempFileDir: "/tmp/",
   })
 );
 
@@ -27,8 +28,27 @@ cloudinary.config({
 
 app.use(express.json());
 
-app.post("/upload", function (req, res) {
-  console.log(req.files.img);
+app.post("/upload", async (req, res) => {
+  try {
+    const response = await cloudinary.uploader.upload(
+      req.files.img.tempFilePath,
+      {
+        public_id: "node_file",
+        folder: "node_file",
+      }
+    );
+
+    // Generate url
+    const url = await cloudinary.url("node_file", {
+      width: 400,
+      height: 400,
+      Crop: "fill",
+    });
+
+    res.status(200).json({ url });
+  } catch (error) {
+    res.status(500).json(error);
+  }
 });
 
 const port = process.env.PORT || 4000;
