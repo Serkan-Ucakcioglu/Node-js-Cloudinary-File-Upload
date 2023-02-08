@@ -12,6 +12,12 @@ app.use(
     optionsSuccessStatus: 200,
   })
 );
+app.use(
+  fileUpload({
+    useTempFiles: true,
+    limits: { fileSize: 50 * 1024 * 1024 },
+  })
+);
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
