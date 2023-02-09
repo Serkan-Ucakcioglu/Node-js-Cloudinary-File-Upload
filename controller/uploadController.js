@@ -9,7 +9,8 @@ const uploader = async (req, res) => {
         folder: "node_file",
       }
     );
-
+    //If we want to add an img to a user in mongo
+    /*  await User.findByIdAndUpdate(id,{image: response.url}) */
     res.status(200).json({ url: response.url });
   } catch (error) {
     res.status(500).json(error);
