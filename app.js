@@ -24,6 +24,7 @@ app.use(
   })
 );
 
+// cloudinary connect
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.API_KEY,
@@ -34,7 +35,6 @@ app.use(express.json());
 app.use("/", uploadRoute);
 
 const port = process.env.PORT || 4000;
-
 app.listen(port, () =>
   console.log("> Server is up and running on port : " + port)
 );
